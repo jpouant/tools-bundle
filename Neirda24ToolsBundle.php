@@ -1,6 +1,6 @@
 <?php
 
-namespace Iron\Bundle\ToolsBundle;
+namespace Neirda24\Bundle\ToolsBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
