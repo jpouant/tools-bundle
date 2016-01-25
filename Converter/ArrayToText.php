@@ -130,7 +130,7 @@ class ArrayToText
      */
     public function arrayToString(array $array, $level = 0)
     {
-        $result       = $this->beginOfLine;
+        $result       = '';
         $spacesStart  = $this->getIndentForLevel(($level - 1));
         $spacesIndent = $this->getIndentForLevel($level);
 
@@ -142,7 +142,7 @@ class ArrayToText
                 $stringValue = $this->formatValue($value);
             }
             $result .= "\n";
-            $result .= sprintf('%s%s%s%s%s', $spacesIndent, $key, $this->betweenKeyAndValue, $stringValue, $this->endOfLine);
+            $result .= sprintf('%s%s%s%s%s%s', $spacesIndent, $this->beginOfLine, $key, $this->betweenKeyAndValue, $stringValue, $this->endOfLine);
         }
         $result .= "\n";
         $result .= $spacesStart;
