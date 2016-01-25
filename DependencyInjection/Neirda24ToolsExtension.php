@@ -12,7 +12,7 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
  *
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
  */
-class Neirda24ToolsBundleExtension extends Extension
+class Neirda24ToolsExtension extends Extension
 {
     /**
      * {@inheritdoc}
