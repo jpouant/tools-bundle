@@ -144,7 +144,9 @@ class ArrayToText
             $result .= "\n";
             $result .= sprintf('%s%s%s%s%s%s', $spacesIndent, $this->beginOfLine, $key, $this->betweenKeyAndValue, $stringValue, $this->endOfLine);
         }
-        $result .= "\n";
+        if ($level > 0) {
+            $result .= "\n";
+        }
         $result .= $spacesStart;
 
         return $result;
