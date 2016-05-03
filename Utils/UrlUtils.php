@@ -23,9 +23,15 @@ class UrlUtils
     public static function urlToString($url)
     {
         $result = parse_url($url, PHP_URL_PATH);
-
-        if (true === StringUtils::endsWith($result, '/')) {
-            $result = rtrim($result, '/');
+        $result = rtrim($result, '/');
+        if ('' === trim($result)) {
+            $result = parse_url($url);
+            if (array_key_exists('host', $result)) {
+                $result = $result['host'];
+                $result = rtrim($result, '/');
+            } else {
+                $result = '';
+            }
         }
 
         $result = preg_replace('`^www\.`i', '', $result);
