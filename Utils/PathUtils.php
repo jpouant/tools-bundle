@@ -9,7 +9,7 @@ class PathUtils
      *
      * @return string
      */
-    public function cleanHomeVariable($haystack)
+    public function cleanHomeVariable(string $haystack): string
     {
         return preg_replace('#^(\$HOME|~)(/|$)#', rtrim(getenv('HOME') ?: getenv('USERPROFILE'), '/\\') . '/', $haystack);
     }
@@ -22,7 +22,7 @@ class PathUtils
      *
      * @return bool
      */
-    public function copyr($source, $dest)
+    public function copyr(string $source, string $dest): bool
     {
         // Check for symlinks
         if (is_link($source)) {

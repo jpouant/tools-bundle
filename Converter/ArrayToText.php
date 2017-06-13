@@ -43,11 +43,11 @@ class ArrayToText
      *
      * @param boolean $displayKey
      *
-     * @return $this
+     * @return self
      */
-    public function setDisplayKey($displayKey)
+    public function setDisplayKey(bool $displayKey): self
     {
-        $this->displayKey = (bool)$displayKey;
+        $this->displayKey = $displayKey;
 
         return $this;
     }
@@ -57,9 +57,9 @@ class ArrayToText
      *
      * @param bool|string $aroundKey
      *
-     * @return $this
+     * @return self
      */
-    public function setAroundKey($aroundKey = false)
+    public function setAroundKey(bool $aroundKey = false): self
     {
         $this->aroundKey = $aroundKey;
 
@@ -71,9 +71,9 @@ class ArrayToText
      *
      * @param bool|string $aroundValue
      *
-     * @return $this
+     * @return self
      */
-    public function setAroundValue($aroundValue = false)
+    public function setAroundValue(bool $aroundValue = false): self
     {
         $this->aroundValue = $aroundValue;
 
@@ -85,9 +85,9 @@ class ArrayToText
      *
      * @param string $beginOfLine
      *
-     * @return $this
+     * @return self
      */
-    public function setBeginOfLine($beginOfLine = '')
+    public function setBeginOfLine(string $beginOfLine = ''): self
     {
         $this->beginOfLine = $beginOfLine;
 
@@ -99,9 +99,9 @@ class ArrayToText
      *
      * @param string $betweenKeyAndValue
      *
-     * @return $this
+     * @return self
      */
-    public function setBetweenKeyAndValue($betweenKeyAndValue = ' => ')
+    public function setBetweenKeyAndValue(string $betweenKeyAndValue = ' => '): self
     {
         $this->betweenKeyAndValue = $betweenKeyAndValue;
 
@@ -113,9 +113,9 @@ class ArrayToText
      *
      * @param string $endOfLine
      *
-     * @return $this
+     * @return self
      */
-    public function setEndOfLine($endOfLine = ',')
+    public function setEndOfLine(string $endOfLine = ','): self
     {
         $this->endOfLine = $endOfLine;
 
@@ -128,7 +128,7 @@ class ArrayToText
      *
      * @return string
      */
-    public function arrayToString(array $array, $level = 0)
+    public function arrayToString(array $array, int $level = 0): string
     {
         $result       = '';
         $spacesStart  = $this->getIndentForLevel(($level - 1));
@@ -192,10 +192,8 @@ class ArrayToText
      * @param int $level
      *
      * @return string
-     *
-     * @todo: Throw error if not int
      */
-    protected function getIndentForLevel($level)
+    protected function getIndentForLevel(int $level)
     {
         $spacesIndent = '';
 

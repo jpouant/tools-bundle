@@ -19,9 +19,8 @@ class ExcelUtils
      *
      * @return string The column with letters
      */
-    public function numberToColumnLetter($number)
+    public function numberToColumnLetter(int $number): string
     {
-        $number = (int)$number;
         for ($r = ''; $number >= 0; $number = (int)($number / 26) - 1) {
             $r = chr($number % 26 + 0x41) . $r;
         }

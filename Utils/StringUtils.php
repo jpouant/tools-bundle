@@ -12,7 +12,7 @@ class StringUtils
      *
      * @return string
      */
-    public function left($str, $length)
+    public function left(string $str, int $length): string
     {
         return mb_substr((string)$str, 0, (int)$length);
     }
@@ -25,7 +25,7 @@ class StringUtils
      *
      * @return string
      */
-    public function right($str, $length)
+    public function right(string $str, int $length): string
     {
         return mb_substr((string)$str, -(int)$length);
     }
@@ -38,7 +38,7 @@ class StringUtils
      *
      * @return boolean
      */
-    public function startsWith($haystack, $needle)
+    public function startsWith(string $haystack, string $needle): bool
     {
         return $needle === '' || mb_strpos((string)$haystack, (string)$needle) === 0;
     }
@@ -51,7 +51,7 @@ class StringUtils
      *
      * @return boolean
      */
-    public function endsWith($haystack, $needle)
+    public function endsWith(string $haystack, string $needle): bool
     {
         return $needle === '' || mb_substr((string)$haystack, -mb_strlen((string)$needle)) === (string)$needle;
     }

@@ -20,10 +20,12 @@ class UrlUtils
 
     /**
      * UrlUtils constructor.
+     *
+     * @param StringUtils $stringUtils
      */
-    public function __construct()
+    public function __construct(StringUtils $stringUtils = null)
     {
-        $this->stringUtils = new StringUtils();
+        $this->stringUtils = $stringUtils ?? new StringUtils();
     }
 
     /**
@@ -33,7 +35,7 @@ class UrlUtils
      *
      * @return string
      */
-    public function urlToString($url)
+    public function urlToString(string $url): string
     {
         $result = parse_url($url, PHP_URL_PATH);
         $result = rtrim($result, '/');
@@ -59,7 +61,7 @@ class UrlUtils
      *
      * @return string
      */
-    public function extractMainDomainFromUrl($url)
+    public function extractMainDomainFromUrl(string $url): string
     {
         $matchesMainDomain = null;
         $hostString        = self::urlToString($url);
@@ -84,7 +86,7 @@ class UrlUtils
      *
      * @return string
      */
-    public function extractSubDomainsFromUrl($url)
+    public function extractSubDomainsFromUrl(string $url): string
     {
         $mainDomain = $this->extractMainDomainFromUrl($url);
 
@@ -98,7 +100,7 @@ class UrlUtils
      *
      * @return string
      */
-    public function extractFirstSubDomainFromUrl($url)
+    public function extractFirstSubDomainFromUrl(string $url): string
     {
         $subDomains = $this->extractSubDomainsFromUrl($url);
 
@@ -115,7 +117,7 @@ class UrlUtils
      *
      * @return string|null
      */
-    public function getUrlFilename(string $url)
+    public function getUrlFilename(string $url): ?string
     {
         // Take everything after the last slash:
         // https://mywebsite.com/file/doc/CGV_3A.pdf => CGV_3A.pdf
