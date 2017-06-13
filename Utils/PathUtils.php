@@ -9,7 +9,7 @@ class PathUtils
      *
      * @return string
      */
-    public static function cleanHomeVariable($haystack)
+    public function cleanHomeVariable($haystack)
     {
         return preg_replace('#^(\$HOME|~)(/|$)#', rtrim(getenv('HOME') ?: getenv('USERPROFILE'), '/\\') . '/', $haystack);
     }
@@ -22,7 +22,7 @@ class PathUtils
      *
      * @return bool
      */
-    public static function copyr($source, $dest)
+    public function copyr($source, $dest)
     {
         // Check for symlinks
         if (is_link($source)) {
@@ -48,7 +48,7 @@ class PathUtils
             }
 
             // Deep copy directories
-            static::copyr("$source/$entry", "$dest/$entry");
+            $this->copyr("$source/$entry", "$dest/$entry");
         }
 
         // Clean up

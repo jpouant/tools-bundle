@@ -19,7 +19,7 @@ class ExcelUtils
      *
      * @return string The column with letters
      */
-    public static function numberToColumnLetter($number)
+    public function numberToColumnLetter($number)
     {
         $number = (int)$number;
         for ($r = ''; $number >= 0; $number = (int)($number / 26) - 1) {

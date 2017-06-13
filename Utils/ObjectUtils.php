@@ -11,7 +11,7 @@ class ObjectUtils
      *
      * @return mixed
      */
-    public static function retrieveCaller($depth = 1)
+    public function retrieveCaller($depth = 1)
     {
         // 1 Contains ContentUtils
         // 2 Contains The caller of this function

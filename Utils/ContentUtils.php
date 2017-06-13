@@ -11,7 +11,7 @@ class ContentUtils
      *
      * @return string The PHP string with the whitespace removed
      */
-    public static function stripWhitespace($source)
+    public function stripWhitespace($source)
     {
         if (!function_exists('token_get_all')) {
             return $source;

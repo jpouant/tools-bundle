@@ -10,8 +10,21 @@ class UrlUtils
      * @var array
      */
     protected static $excludedTld = [
-        '.co.uk'
+        '.co.uk',
     ];
+
+    /**
+     * @var StringUtils
+     */
+    private $stringUtils;
+
+    /**
+     * UrlUtils constructor.
+     */
+    public function __construct()
+    {
+        $this->stringUtils = new StringUtils();
+    }
 
     /**
      * Extract the host from the URL and remove 'www.' and the trailing '/'
@@ -20,7 +33,7 @@ class UrlUtils
      *
      * @return string
      */
-    public static function urlToString($url)
+    public function urlToString($url)
     {
         $result = parse_url($url, PHP_URL_PATH);
         $result = rtrim($result, '/');
@@ -46,23 +59,22 @@ class UrlUtils
      *
      * @return string
      */
-    public static function extractMainDomainFromUrl($url)
+    public function extractMainDomainFromUrl($url)
     {
         $matchesMainDomain = null;
         $hostString        = self::urlToString($url);
         $pattern           = '/[^.]+\\.[^.]+$/';
 
         foreach (self::$excludedTld as $extension) {
-            if (StringUtils::endsWith($hostString, $extension)) {
+            if ($this->stringUtils->endsWith($hostString, $extension)) {
                 $pattern = sprintf('/.*\\.(.*%s)/', str_replace('.', '\.', $extension));
                 break;
             }
         }
 
         preg_match($pattern, $hostString, $matchesMainDomain);
-        $mainDomain = array_pop($matchesMainDomain);
 
-        return $mainDomain;
+        return array_pop($matchesMainDomain);
     }
 
     /**
@@ -72,13 +84,11 @@ class UrlUtils
      *
      * @return string
      */
-    public static function extractSubDomainsFromUrl($url)
+    public function extractSubDomainsFromUrl($url)
     {
-        $mainDomain = self::extractMainDomainFromUrl($url);
+        $mainDomain = $this->extractMainDomainFromUrl($url);
 
-        $subDomains = preg_replace('/\.' . $mainDomain . '/', '', $url);
-
-        return $subDomains;
+        return preg_replace('/\.' . $mainDomain . '/', '', $url);
     }
 
     /**
@@ -88,15 +98,14 @@ class UrlUtils
      *
      * @return string
      */
-    public static function extractFirstSubDomainFromUrl($url)
+    public function extractFirstSubDomainFromUrl($url)
     {
-        $subDomains = self::extractSubDomainsFromUrl($url);
+        $subDomains = $this->extractSubDomainsFromUrl($url);
 
         $matchesSubDomain = null;
         preg_match('/[^.]+$/', $subDomains, $matchesSubDomain);
-        $firstSubDomain = array_pop($matchesSubDomain);
 
-        return $firstSubDomain;
+        return array_pop($matchesSubDomain);
     }
 
     /**
@@ -106,7 +115,7 @@ class UrlUtils
      *
      * @return string|null
      */
-    public static function getUrlFilename($url)
+    public function getUrlFilename(string $url)
     {
         // Take everything after the last slash:
         // https://mywebsite.com/file/doc/CGV_3A.pdf => CGV_3A.pdf
