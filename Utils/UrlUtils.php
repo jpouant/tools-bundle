@@ -2,6 +2,8 @@
 
 namespace Neirda24\Bundle\ToolsBundle\Utils;
 
+use InvalidArgumentException;
+
 class UrlUtils
 {
     /**
@@ -29,25 +31,49 @@ class UrlUtils
     }
 
     /**
+     * @param string $url
+     *
+     * @throws InvalidArgumentException
+     */
+    private function validateUrl(string $url): void
+    {
+        $result = parse_url($url);
+
+        if (false === $result) {
+            throw new InvalidArgumentException(sprintf('The given string is not a valid URL. `%s`', $url));
+        }
+    }
+
+    /**
+     * Extract the host from the URL and remove the trailing '/'
+     *
+     * @param string $url
+     *
+     * @return string
+     *
+     * @throws InvalidArgumentException
+     */
+    public function extractHost(string $url): string
+    {
+        $this->validateUrl($url);
+        $result = parse_url($url, PHP_URL_HOST);
+        $result = rtrim($result, '/');
+
+        return $result;
+    }
+
+    /**
      * Extract the host from the URL and remove 'www.' and the trailing '/'
      *
      * @param string $url
      *
      * @return string
+     *
+     * @throws InvalidArgumentException
      */
     public function urlToString(string $url): string
     {
-        $result = parse_url($url, PHP_URL_PATH);
-        $result = rtrim($result, '/');
-        if ('' === trim($result)) {
-            $result = parse_url($url);
-            if (array_key_exists('host', $result)) {
-                $result = $result['host'];
-                $result = rtrim($result, '/');
-            } else {
-                $result = '';
-            }
-        }
+        $result = $this->extractHost($url);
 
         $result = preg_replace('`^www\.`i', '', $result);
 
@@ -60,11 +86,13 @@ class UrlUtils
      * @param string $url
      *
      * @return string
+     *
+     * @throws InvalidArgumentException
      */
     public function extractMainDomainFromUrl(string $url): string
     {
         $matchesMainDomain = null;
-        $hostString        = self::urlToString($url);
+        $hostString        = $this->extractHost($url);
         $pattern           = '/[^.]+\\.[^.]+$/';
 
         foreach (self::$excludedTld as $extension) {
@@ -85,6 +113,8 @@ class UrlUtils
      * @param string $url
      *
      * @return string
+     *
+     * @throws InvalidArgumentException
      */
     public function extractSubDomainsFromUrl(string $url): string
     {
@@ -99,6 +129,8 @@ class UrlUtils
      * @param string $url
      *
      * @return string
+     *
+     * @throws InvalidArgumentException
      */
     public function extractFirstSubDomainFromUrl(string $url): string
     {
@@ -126,5 +158,33 @@ class UrlUtils
         }
 
         return null;
+    }
+
+    /**
+     * @param string $url
+     * @param bool   $query
+     *
+     * @return string
+     *
+     * @throws InvalidArgumentException
+     */
+    public function extractPath(string $url, bool $query = true): string
+    {
+        $this->validateUrl($url);
+        $result = parse_url($url, PHP_URL_PATH);
+
+        if (true === $query) {
+            $queryResult = parse_url($url, PHP_URL_QUERY);
+            if ('' !== trim($queryResult)) {
+                $result .= sprintf('?%s', $queryResult);
+            }
+        }
+
+        $fragmentResult = parse_url($url, PHP_URL_FRAGMENT);
+        if ('' !== $fragmentResult) {
+            $result .= sprintf('#%s', $fragmentResult);
+        }
+
+        return $result;
     }
 }
